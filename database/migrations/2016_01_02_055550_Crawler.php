@@ -16,6 +16,7 @@ class Crawler extends Migration
             $table->increments('id');
             $table->string('url')->unique();
             $table->boolean('ind_crawled')->default("0");
+            $table->boolean('ind_failed')->default("0");
             $table->timestamps();
         });
     }

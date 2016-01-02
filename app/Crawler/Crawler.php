@@ -27,7 +27,7 @@ class Crawler {
 
     public function getLinks($id) {
         if (!$this->crawler->count()) {
-            return [$this->formatUrl("")];
+            return [$this->crawler->create(['url' => $this->formatUrl("")])];
         }
 
         $links = $this->crawler
@@ -37,9 +37,7 @@ class Crawler {
 
         $links->update(['ind_crawled' => '1']);
 
-        return collect($links->get())->map(function ($value) {
-            return $value->url;
-        });
+        return $links->get();
     }
 
     private function formatUrl($url) {
@@ -87,7 +85,14 @@ class Crawler {
         foreach ($links as $link) {
 
             try {
-                $html = $this->client->get($link)->getBody();
+                $request = $this->client->get($link->url);
+
+                if ($request->getStatusCode() != 200) {
+                    continue;
+                }
+
+                $html = $request->getBody();
+
             } catch (Exception $e) {
                 continue;
             }

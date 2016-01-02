@@ -7,5 +7,20 @@
       <schema-pattern>ultracarros.*</schema-pattern>
       <default-schemas>ultracarros.*</default-schemas>
     </data-source>
+    <data-source name="MySQL - ultracarros@localhost" uuid="382fdb2e-e47b-4e85-a5f4-1cba19b591e6">
+      <secret-storage>master_key</secret-storage>
+      <user-name>forge</user-name>
+      <schema-pattern>ultracarros.*</schema-pattern>
+      <default-schemas>ultracarros.*</default-schemas>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <proxy-host>104.131.34.144</proxy-host>
+        <proxy-port>22</proxy-port>
+        <secret-storage>master_key</secret-storage>
+        <user>forge</user>
+        <use-password>false</use-password>
+        <private-key-path>$USER_HOME$/.ssh/id_rsa</private-key-path>
+      </ssh-properties>
+    </data-source>
   </component>
 </project>
