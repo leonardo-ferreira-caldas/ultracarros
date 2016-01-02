@@ -78,8 +78,6 @@ class Crawler {
     public function crawl($id) {
 
         $links = $this->getLinks($id);
-        Log::info($links);
-        dump($links);
 
         $uuid = uniqid();
         Log::info("Starting to crawl $uuid... " . Carbon::now()->toDateTimeString());
@@ -87,9 +85,6 @@ class Crawler {
         $linksEncontrados = collect();
 
         foreach ($links as $link) {
-
-            Log::info($link);
-            dump($link);
 
             try {
                 $request = $this->client->get($link->url);
@@ -99,8 +94,6 @@ class Crawler {
 //                }
 
                 $html = $request->getBody();
-
-                dump($html);
 
             } catch (Exception $e) {
                 Log::info($e->getMessage());
@@ -113,13 +106,9 @@ class Crawler {
             foreach ($dom->filter("a") as $anchor) {
                 $url = $this->normalizeUrl($anchor->getAttribute("href"));
 
-                dump($url);
-
                 if ($url === false) {
                     continue;
                 }
-
-                dump($url);
 
                 $linksEncontrados->push($url);
 
