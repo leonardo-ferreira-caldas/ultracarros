@@ -87,9 +87,9 @@ class Crawler {
             try {
                 $request = $this->client->get($link->url);
 
-                if ($request->getStatusCode() != 200) {
-                    continue;
-                }
+//                if ($request->getStatusCode() != 200) {
+//                    continue;
+//                }
 
                 $html = $request->getBody();
 
