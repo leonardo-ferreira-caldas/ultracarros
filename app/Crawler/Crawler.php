@@ -27,7 +27,7 @@ class Crawler {
 
     public function getLinks($id) {
         if (!$this->crawler->count()) {
-            return [$this->crawler->create(['url' => $this->formatUrl("")])];
+            $this->crawler->create(['url' => $this->formatUrl("")]);
         }
 
         $links = $this->crawler
