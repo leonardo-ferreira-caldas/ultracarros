@@ -94,6 +94,7 @@ class Crawler {
                 $html = $request->getBody();
 
             } catch (Exception $e) {
+                Log::info($e->getMessage());
                 continue;
             }
 
