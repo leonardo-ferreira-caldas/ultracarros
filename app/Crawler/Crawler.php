@@ -18,7 +18,7 @@ class Crawler {
 
     private $initialCrawlerDomain = "www.webmotors.com.br";
     private $initialCrawlerProtocol = "http";
-    private $crawlingOffset = 25;
+    private $crawlingOffset = 50;
 
     public function __construct(CrawlerTable $crawler, Client $client) {
         $this->crawler = $crawler;
