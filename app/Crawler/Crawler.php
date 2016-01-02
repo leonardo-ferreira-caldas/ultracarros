@@ -76,6 +76,8 @@ class Crawler {
     public function crawl($id) {
 
         $links = $this->getLinks($id);
+        Log::info($links);
+        dump($links);
 
         $uuid = uniqid();
         Log::info("Starting to crawl $uuid... " . Carbon::now()->toDateTimeString());
@@ -83,6 +85,9 @@ class Crawler {
         $linksEncontrados = collect();
 
         foreach ($links as $link) {
+
+            Log::info($link);
+            dump($link);
 
             try {
                 $request = $this->client->get($link->url);
