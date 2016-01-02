@@ -35,9 +35,11 @@ class Crawler {
             ->skip(($id * $this->crawlingOffset) - $this->crawlingOffset)
             ->take($this->crawlingOffset)->lockForUpdate();
 
+        $result = $links->get();
+
         $links->update(['ind_crawled' => '1']);
 
-        return $links->get();
+        return $result;
     }
 
     private function formatUrl($url) {
