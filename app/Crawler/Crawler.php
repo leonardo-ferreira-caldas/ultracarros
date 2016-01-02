@@ -93,6 +93,8 @@ class Crawler {
 
                 $html = $request->getBody();
 
+                dump($html);
+
             } catch (Exception $e) {
                 Log::info($e->getMessage());
                 continue;
@@ -104,9 +106,13 @@ class Crawler {
             foreach ($dom->filter("a") as $anchor) {
                 $url = $this->normalizeUrl($anchor->getAttribute("href"));
 
+                dump($url);
+
                 if ($url === false) {
                     continue;
                 }
+
+                dump($url);
 
                 $linksEncontrados->push($url);
 
