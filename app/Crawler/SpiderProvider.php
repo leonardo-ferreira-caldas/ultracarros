@@ -3,6 +3,7 @@
 namespace App\Crawler;
 
 use App\Model\Carroceria;
+use App\Model\Montadora;
 use App\Model\Cidade;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Versao;
@@ -109,7 +110,15 @@ class SpiderProvider {
     }
 
     public function getMontadora() {
-        return $this->montadora[ucwords(strtolower($this->metas['wm.dt_marca']))];
+        if (!isset($this->montadora[ucwords(mb_strtolower($this->metas['wm.dt_marca']))])) {
+            try {
+                $montadora = Montadora::where("descricao", '=', $this->metas['wm.dt_marca'])->firstOrFail();
+                return $montadora->id_montadora;
+            } catch (Exception $e) {
+                throw new Exception("Montadora não encontrada.");
+            }
+        }
+        return $this->montadora[ucwords(mb_strtolower($this->metas['wm.dt_marca']))];
     }
 
     public function getCambio() {
@@ -127,6 +136,9 @@ class SpiderProvider {
     }
 
     public function getModelo() {
+        if (!isset($this->modelo[$this->getMontadora()][$this->metas['wm.dt_mod']])) {
+            throw new Exception("Modelo não encontrada.");
+        }
         return $this->modelo[$this->getMontadora()][$this->metas['wm.dt_mod']];
     }
 

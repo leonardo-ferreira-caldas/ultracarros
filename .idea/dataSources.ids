@@ -274,6 +274,7 @@
       <column name="created_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="updated_at" sqlType="TIMESTAMP" precision="19" scale="0" nullable="false" jdbcType="93"/>
       <column name="failed_tries" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>
+      <column name="error_log" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
       <primary-key name="PRIMARY" columns="id"/>
       <index name="crawler_url_unique" unique="true" columns="url"/>
     </table>

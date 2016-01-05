@@ -124,6 +124,7 @@ class Crawler {
                 }
 
                 $link->failed_tries = 0;
+                $link->error_log = null;
                 $link->save();
 
                 DB::commit();
@@ -136,6 +137,7 @@ class Crawler {
 
                 $link->ind_crawled = false;
                 $link->failed_tries = $link->failed_tries + 1;
+                $link->error_log = $e->getMessage() . PHP_EOL . PHP_EOL . $e->getTraceAsString();
                 $link->save();
 
             } finally {

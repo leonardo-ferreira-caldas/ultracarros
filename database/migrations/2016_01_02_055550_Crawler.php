@@ -17,6 +17,7 @@ class Crawler extends Migration
             $table->string('url')->unique();
             $table->boolean('ind_crawled')->default("0");
             $table->unsignedTinyInteger('failed_tries')->default("0");
+            $table->text('error_log');
             $table->timestamps();
         });
     }
