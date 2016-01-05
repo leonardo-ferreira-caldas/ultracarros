@@ -2,11 +2,13 @@
 
 namespace App\Crawler;
 
+use App\Exceptions\ImageNotFoundException;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Crawler as WebCrawler;
 use Log;
 use DB;
 use Exception;
+use Storage;
 use App\Model\Carro;
 use App\Model\CarroFoto;
 use App\Model\CarroOpcional;
@@ -95,13 +97,20 @@ class Spider {
 
             $dom = null;
 
+
+        } catch (ImageNotFoundException $e) {
+
+            Log::info($e->getMessage());
+
+            $this->crawler->delete();
+
         } catch (Exception $e) {
 
             Log::info($e->getMessage());
 
             if (!empty($this->imagens)) {
                 foreach ($this->imagens as $imagem) {
-                    unlink(public_path($imagem));
+                    Storage::disk('s3')->delete($imagem);
                 }
             }
 

@@ -2,6 +2,7 @@
 
 namespace App\Crawler;
 
+use App\Exceptions\ImageNotFoundException;
 use App\Model\Carroceria;
 use App\Model\Montadora;
 use App\Model\Cidade;
@@ -11,6 +12,7 @@ use Log;
 use DB;
 use Image;
 use Exception;
+use Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -266,28 +268,44 @@ class SpiderProvider {
         return [$opcionais, $observacao, $listaDocumentacao];
     }
 
+    public function getImagemURL($url) {
+        return explode("?", $url)[0];
+    }
+
+    public function getExtensao($url) {
+        $mime = explode(".", $url);
+        return end($mime);
+    }
+
     public function getImagens($idCarro) {
 
         $xpath = $this->dom->filter("#main-carousel > div > div.carousel-inner.c-after > a > img");
         $imagens = [];
 
         foreach ($xpath as $each) {
+
             try {
-                $src = explode("?", $each->getAttribute("src"));
-                $mime = explode(".", $src[0]);
-                $newImageName = "/tmp/" . uniqid() . "." . end($mime);
-                copy($src[0], $newImageName);
-                $img = Image::make($newImageName);
-                $imagemCropada = "img/carros/" . uniqid($idCarro . "_") . ".jpg";
-                $img->crop($img->width(), $img->height() - 72, 0, 36)->save(public_path($imagemCropada));
+
+                $imgHttpUrl = $this->getImagemURL($each->getAttribute("src"));
+
+                $img = Image::make($imgHttpUrl);
+                $croppedImage = $img->crop($img->width(), $img->height() - 72, 0, 36)->stream();
                 $img->destroy();
-                unlink($newImageName);
-                $imagens[] = $imagemCropada;
+
+                $s3Name = uniqid('veiculo' . $idCarro . '_') . '.' . $this->getExtensao($imgHttpUrl);
+
+                Storage::disk('s3')->put($s3Name, $croppedImage->__toString(), 'public');
+                $croppedImage = null;
+                unset($croppedImage);
+
+                $imagens[] = $s3Name;
+
             } catch (Exception $e) {}
+
         }
 
         if (empty($imagens)) {
-            throw new Exception("Nenhuma imagem encontrada.");
+            throw new ImageNotFoundException("Nenhuma imagem encontrada.");
         }
 
         return $imagens;
