@@ -3,31 +3,34 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Log;
+use App\Crawler\Crawler;
 
-class InformationCrawler extends Command
+class WebCrawler extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'crawler:info';
+    protected $signature = 'crawler:run {id}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Rasteja pelos links/urls encontrados pelo LinkCrawler';
+    protected $description = 'Rasteja um website procurando links';
+
+    protected $crawler;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Crawler $crawler)
     {
+        $this->crawler = $crawler;
         parent::__construct();
     }
 
@@ -38,6 +41,6 @@ class InformationCrawler extends Command
      */
     public function handle()
     {
-        Log::info("Scheduler working...");
+        $this->comment($this->crawler->crawl($this->argument('id')));
     }
 }

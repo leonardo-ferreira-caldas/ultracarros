@@ -16,8 +16,8 @@ class CarroCrawlerMigration extends Migration
             $table->increments('id_carro_crawler');
             $table->unsignedInteger('fk_carro');
             $table->string('url');
-            $table->dateTime('ultima_atualizacao')->defailt(DB::raw('CURRENT_TIMESTAMP'));
-            $table->boolean('ind_atualizando')->default(false);
+            $table->dateTime('ultima_atualizacao');
+            $table->boolean('ind_atualizando')->default(0);
             $table->timestamps();
         });
     }

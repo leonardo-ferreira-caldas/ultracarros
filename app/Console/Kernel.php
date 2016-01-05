@@ -13,8 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\InformationCrawler::class,
-        Commands\LinkCrawler::class
+        Commands\WebCrawler::class,
+        Commands\Cleaner::class
     ];
 
     /**
@@ -25,8 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        for ($i = 0; $i < 5; $i++) {
-            $schedule->command("crawler:links {$i}")->everyMinute();
+        for ($i = 0; $i < 10; $i++) {
+            $schedule->command("crawler:run {$i}")->everyMinute();
         }
+
+        $schedule->command("crawler:clean")->weekly();
     }
 }

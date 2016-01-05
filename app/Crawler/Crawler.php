@@ -3,11 +3,11 @@
 namespace App\Crawler;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Crawler as CrawlerTable;
 use GuzzleHttp\Client;
 use Log;
+use DB;
 use Illuminate\Support\Str;
 use Exception;
 
@@ -18,7 +18,11 @@ class Crawler {
 
     private $initialCrawlerDomain = "www.webmotors.com.br";
     private $initialCrawlerProtocol = "http";
-    private $crawlingOffset = 50;
+
+    private $crawlingOffset = 30;
+    private $ignoreUrlWords = ['javascript', 'mailto:'];
+
+    private $regexProduct = '.*\/comprar\/.*portas.*';
 
     public function __construct(CrawlerTable $crawler, Client $client) {
         $this->crawler = $crawler;
@@ -32,6 +36,7 @@ class Crawler {
 
         $links = $this->crawler
             ->where('ind_crawled', '=', '0')
+            ->where('failed_tries', '<', '5')
             ->skip(($id * $this->crawlingOffset) - $this->crawlingOffset)
             ->take($this->crawlingOffset)->lockForUpdate();
 
@@ -47,7 +52,9 @@ class Crawler {
     }
 
     private function normalizeUrl($url) {
-        if (Str::startsWith($url, $this->initialCrawlerProtocol)) {
+        if (Str::contains($url, $this->ignoreUrlWords)) {
+            return false;
+        } else if (Str::startsWith($url, $this->initialCrawlerProtocol)) {
             if (Str::contains($url, $this->initialCrawlerDomain)) {
                 return $url;
             } else {
@@ -58,21 +65,8 @@ class Crawler {
         return $this->formatUrl(ltrim($url, "/"));
     }
 
-    private function insert(Collection $links) {
-        $arrLinks = $links->unique()->toArray();
-
-        $counter = 0;
-
-        foreach ($arrLinks as $url) {
-            try {
-                $this->crawler->create([
-                    'url' => $url
-                ]);
-                $counter++;
-            } catch (Exception $e) {}
-        }
-
-        Log::info("Links inseridos: " . $counter);
+    private function isProduct($url) {
+        return (bool) preg_match('/' . $this->regexProduct . '/', $url);
     }
 
     public function crawl($id) {
@@ -82,44 +76,76 @@ class Crawler {
         $uuid = uniqid();
         Log::info("Starting to crawl $uuid... " . Carbon::now()->toDateTimeString());
 
-        $linksEncontrados = collect();
+        $counter = 0;
 
         foreach ($links as $link) {
 
+            DB::beginTransaction();
+
             try {
+
                 $request = $this->client->get($link->url);
 
-//                if ($request->getStatusCode() != 200) {
-//                    continue;
-//                }
-
-                $html = $request->getBody();
-
-            } catch (Exception $e) {
-                Log::info($e->getMessage());
-                continue;
-            }
-
-            $dom = new DomCrawler();
-            $dom->addHtmlContent($html);
-
-            foreach ($dom->filter("a") as $anchor) {
-                $url = $this->normalizeUrl($anchor->getAttribute("href"));
-
-                if ($url === false) {
+                if ($request->getStatusCode() != 200) {
+                    $link->ind_crawled = false;
+                    $link->failed_tries = $link->failed_tries + 1;
+                    $link->save();
                     continue;
                 }
 
-                $linksEncontrados->push($url);
+                $html = $request->getBody();
 
+                $dom = new DomCrawler();
+                $dom->addHtmlContent($html);
+
+                if ($this->isProduct($link->url)) {
+                    $spider = new Spider($link, $dom);
+                    $spider->get();
+                }
+
+                foreach ($dom->filter("a") as $anchor) {
+                    $url = $this->normalizeUrl($anchor->getAttribute("href"));
+
+                    if ($url === false) {
+                        continue;
+                    }
+
+                    if ($this->crawler->where('url', '=', $url)->count()) {
+                        continue;
+                    }
+
+                    $this->crawler->create([
+                        'url' => $url
+                    ]);
+
+                    $counter++;
+
+                }
+
+                $link->failed_tries = 0;
+                $link->save();
+
+                DB::commit();
+
+            } catch (Exception $e) {
+                DB::rollBack();
+
+                Log::info($e->getMessage());
+
+                $link->ind_crawled = false;
+                $link->failed_tries = $link->failed_tries + 1;
+                $link->save();
+
+            } finally {
+                $dom = null;
+                $html = null;
             }
 
         }
 
-        $this->insert($linksEncontrados);
-
-        Log::info("Crawling finished $uuid... " . Carbon::now()->toDateTimeString());
+        Log::info("Crawling finished $uuid, Links inseridos: $counter!");
 
     }
+
 
 }

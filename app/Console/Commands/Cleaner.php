@@ -3,34 +3,31 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Crawler\Crawler;
+use DB;
 
-class LinkCrawler extends Command
+class Cleaner extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'crawler:links {id}';
+    protected $signature = 'crawler:clean';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Rasteja um website procurando links';
-
-    protected $crawler;
+    protected $description = 'Clean the crawler flags';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Crawler $crawler)
+    public function __construct()
     {
-        $this->crawler = $crawler;
         parent::__construct();
     }
 
@@ -41,6 +38,9 @@ class LinkCrawler extends Command
      */
     public function handle()
     {
-        $this->comment($this->crawler->crawl($this->argument('id')));
+        DB::table('crawler')
+            ->where("ind_crawled", '=', '1')
+            ->where("failed_tries", '<', '5')
+            ->update(['ind_crawled' => 1]);
     }
 }

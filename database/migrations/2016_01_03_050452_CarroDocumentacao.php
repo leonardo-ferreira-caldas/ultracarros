@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Crawler extends Migration
+class CarroDocumentacao extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,9 @@ class Crawler extends Migration
      */
     public function up()
     {
-        Schema::create('crawler', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('url')->unique();
-            $table->boolean('ind_crawled')->default("0");
-            $table->unsignedTinyInteger('failed_tries')->default("0");
+        Schema::create('carro_documentacao', function (Blueprint $table) {
+            $table->unsignedInteger('fk_carro');
+            $table->unsignedInteger('fk_documentacao');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class Crawler extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crawler');
+        Schema::dropIfExists('carro_documentacao');
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Crawler extends Migration
+class Cidade extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class Crawler extends Migration
      */
     public function up()
     {
-        Schema::create('crawler', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('url')->unique();
-            $table->boolean('ind_crawled')->default("0");
-            $table->unsignedTinyInteger('failed_tries')->default("0");
+        Schema::create('cidade', function (Blueprint $table) {
+            $table->increments('id_cidade');
+            $table->char("fk_estado", 4);
+            $table->string("nome_cidade", 100);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class Crawler extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('crawler');
+        Schema::dropIfExists('cidade');
     }
 }
