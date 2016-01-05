@@ -279,15 +279,18 @@ class SpiderProvider {
         return end($mime);
     }
 
+    private function getTMPFilePath($url) {
+        return rtrim(sys_get_temp_dir(), '/') . $url;
+    }
+
     public function getImagens($idCarro) {
 
         $xpath = $this->dom->filter("#main-carousel > div > div.carousel-inner.c-after > a > img");
-        $qtdImagens = count($xpath);
         $imagens = [];
 
         $deletarImagens = function($imgs) {
             foreach ($imgs as $imagem) {
-                Storage::disk('s3')->delete($imagem);
+                unlink($this->getTMPFilePath($imagem));
             }
         };
 
@@ -297,15 +300,8 @@ class SpiderProvider {
 
                 $imgHttpUrl = $this->getImagemURL($each->getAttribute("src"));
 
-                $img = Image::make($imgHttpUrl);
-                $croppedImage = $img->stream();
-                $img->destroy();
-
                 $s3Name = uniqid('veiculo' . $idCarro . '_') . '.' . $this->getExtensao($imgHttpUrl);
-
-                Storage::disk('s3')->put($s3Name, $croppedImage->__toString(), 'public');
-                $croppedImage = null;
-                unset($croppedImage);
+                copy($imgHttpUrl, $this->getTMPFilePath($s3Name));
 
                 $imagens[] = $s3Name;
 
@@ -324,6 +320,10 @@ class SpiderProvider {
 
         if (empty($imagens)) {
             throw new ImageNotFoundException("Nenhuma imagem encontrada.");
+        }
+
+        foreach ($imagens as $s3Name) {
+            Storage::disk('s3')->put($s3Name, fopen($this->getTMPFilePath($s3Name), 'r+'), 'public');
         }
 
         return $imagens;

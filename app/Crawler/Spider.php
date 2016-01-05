@@ -72,15 +72,6 @@ class Spider {
             $carroCrawler->ultima_atualizacao = Carbon::now()->toDateTimeString();
             $carroCrawler->save();
 
-            $this->imagens = $provider->getImagens($carro->id_carro);
-
-            foreach ($this->imagens as $imagem) {
-                $carroFoto = new CarroFoto();
-                $carroFoto->fk_carro = $carro->id_carro;
-                $carroFoto->nome_foto = $imagem;
-                $carroFoto->save();
-            }
-
             foreach ($opcionais as $opcional) {
                 $carroOpcional = new CarroOpcional();
                 $carroOpcional->fk_carro = $carro->id_carro;
@@ -93,6 +84,15 @@ class Spider {
                 $carroDocumentacao->fk_carro = $carro->id_carro;
                 $carroDocumentacao->fk_documentacao = $documentacao;
                 $carroDocumentacao->save();
+            }
+
+            $this->imagens = $provider->getImagens($carro->id_carro);
+
+            foreach ($this->imagens as $imagem) {
+                $carroFoto = new CarroFoto();
+                $carroFoto->fk_carro = $carro->id_carro;
+                $carroFoto->nome_foto = $imagem;
+                $carroFoto->save();
             }
 
             $dom = null;
