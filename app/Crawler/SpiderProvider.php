@@ -227,23 +227,28 @@ class SpiderProvider {
             }
         }
 
-        $documentacaoString = trim(strip_tags(explode("<br>", $split[1])[0]));
+        if (isset($split[1]) && !empty($split[1])) {
+            $documentacaoString = trim(strip_tags(explode("<br>", $split[1])[0]));
 
-        if (!empty($documentacaoString)) {
-            $documentacao = explode(",", $documentacaoString);
-        } else {
-            $documentacao = [];
-        }
-
-        $listaDocumentacao = [];
-
-        foreach ($documentacao as $eachD) {
-            if (isset($this->documentacao[trim($eachD)])) {
-                $listaDocumentacao[] = $this->documentacao[trim($eachD)];
+            if (!empty($documentacaoString)) {
+                $documentacao = explode(",", $documentacaoString);
+            } else {
+                $documentacao = [];
             }
-        }
 
-        $observacao = trim(strip_tags(explode("<br>", $split[1])[1]));
+            $listaDocumentacao = [];
+
+            foreach ($documentacao as $eachD) {
+                if (isset($this->documentacao[trim($eachD)])) {
+                    $listaDocumentacao[] = $this->documentacao[trim($eachD)];
+                }
+            }
+
+            $observacao = trim(strip_tags(explode("<br>", $split[1])[1]));
+        } else {
+            $listaDocumentacao = [];
+            $observacao = "";
+        }
 
         return [$opcionais, $observacao, $listaDocumentacao];
     }
@@ -263,6 +268,7 @@ class SpiderProvider {
             $img->crop($img->width(), $img->height() - 72, 0, 36)->save(public_path($imagemCropada));
             unlink($newImageName);
             $imagens[] = $imagemCropada;
+            $img = null;
         }
 
         return $imagens;
