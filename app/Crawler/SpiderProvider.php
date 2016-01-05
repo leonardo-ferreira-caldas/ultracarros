@@ -79,17 +79,23 @@ class SpiderProvider {
     }
 
     public function isAnuncioDesativado() {
-        $anuncioDesativo = $this->dom->filter("body > div.content.detalhes-anuncio-inexistente.c-after > div.col-18.pad-d_gutter-t > div.size-xbigger.bold.mrg-gutter-b")->text();
-
-        if (Str::contains($anuncioDesativo, "Desativado")) {
-            return true;
-        }
-
         try {
-            $this->getAnoModelo();
+
+            $anuncioDesativo = $this->dom->filter("body > div.content.detalhes-anuncio-inexistente.c-after > div.col-18.pad-d_gutter-t > div.size-xbigger.bold.mrg-gutter-b")->text();
+
+            if (Str::contains($anuncioDesativo, "Desativado")) {
+                return true;
+            }
+
             return false;
+
         } catch (Exception $e) {
-            return true;
+            try {
+                $this->getAnoModelo();
+                return false;
+            } catch (Exception $e) {
+                return true;
+            }
         }
     }
 
@@ -198,9 +204,10 @@ class SpiderProvider {
         $xpath = $this->dom->filter("body > div.content.detalhes-anuncio.c-after > div.col-main.col-12 > div:nth-child(3) > div > div.geral.informacoes > div.size-default.pad-h_gutter-t.pad-gutter-lr.lh-oh_gutter > p");
         $split = explode("Observações do vendedor", $xpath->html());
         $opcionaisString = trim(strip_tags($split[0]));
-        $opcionaisString = str_replace("Opcionais", "", $opcionaisString);
+        $opcionaisString = trim(str_replace("Opcionais", "", $opcionaisString));
+        $opcionaisString = str_replace(["\n", "\r"], "", $opcionaisString);
 
-        if (!empty($result)) {
+        if (!empty($opcionaisString)) {
             $opcionaisArray = explode(",", $opcionaisString);
         } else {
             $opcionaisArray = [];

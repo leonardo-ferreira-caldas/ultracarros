@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\WebCrawler::class,
-        Commands\Cleaner::class
+        Commands\Cleaner::class,
+        Commands\TestWebCrawler::class
     ];
 
     /**
