@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Shedule $schedule)
+    protected function schedule(Schedule $schedule)
     {
         $crawlersToStart = 5;
         $crawlersToStart = $crawlersToStart - session()->get('crawler', 0);
