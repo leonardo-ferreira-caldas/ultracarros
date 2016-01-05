@@ -132,12 +132,11 @@ class Crawler {
                 DB::rollBack();
 
                 Log::info($e->getMessage() . " / Url: " . $link->url);
+                Log::info($e->getTraceAsString());
 
                 $link->ind_crawled = false;
                 $link->failed_tries = $link->failed_tries + 1;
                 $link->save();
-
-                throw $e;
 
             } finally {
                 $dom = null;
