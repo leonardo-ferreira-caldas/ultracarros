@@ -316,6 +316,7 @@ class SpiderProvider {
             } catch (Exception $e) {
                 $deletarImagens($imagens);
 
+                Log::info($e->getTraceAsString());
                 throw new Exception("Um erro ocorreu no download das imagens");
             }
 
