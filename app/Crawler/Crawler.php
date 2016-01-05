@@ -80,13 +80,14 @@ class Crawler {
 
         foreach ($links as $link) {
 
-            DB::beginTransaction();
-
             try {
 
                 $request = $this->client->get($link->url);
 
-                if ($request->getStatusCode() != 200) {
+                if ($request->getStatusCode() == 404) {
+                    $link->delete();
+                    continue;
+                } else if ($request->getStatusCode() != 200) {
                     $link->ind_crawled = false;
                     $link->failed_tries = $link->failed_tries + 1;
                     $link->save();
@@ -94,63 +95,74 @@ class Crawler {
                     continue;
                 }
 
-                $html = $request->getBody();
+                DB::beginTransaction();
 
-                $dom = new DomCrawler();
-                $dom->addHtmlContent($html);
+                try {
 
-                if ($this->isProduct($link->url)) {
-                    $spider = new Spider($link, $dom);
-                    $spider->get();
+                    $html = $request->getBody();
+
+                    $dom = new DomCrawler();
+                    $dom->addHtmlContent($html);
+
+                    if ($this->isProduct($link->url)) {
+                        $spider = new Spider($link, $dom);
+                        $spider->get();
+                    }
+
+                    foreach ($dom->filter("a") as $anchor) {
+                        $url = $this->normalizeUrl($anchor->getAttribute("href"));
+
+                        if ($url === false) {
+                            continue;
+                        }
+
+                        $exists = CrawlerTable::where('url', '=', $url)->first();
+
+                        if (!empty($exists)) {
+                            continue;
+                        }
+
+                        try {
+
+                            $this->crawler->create([
+                                'url' => $url
+                            ]);
+
+                            $counter++;
+
+                        } catch (Exception $e) {
+                            Log::info($e->getMessage());
+                        }
+
+                    }
+
+                    $link->failed_tries = 0;
+                    $link->error_log = null;
+                    $link->save();
+
+                    DB::commit();
+
+                } catch (Exception $e) {
+                    DB::rollBack();
+
+                    Log::info($e->getMessage() . " / Url: " . $link->url);
+                    Log::info($e->getTraceAsString());
+
+                    $link->ind_crawled = false;
+                    $link->failed_tries = $link->failed_tries + 1;
+                    $link->error_log = $e->getMessage() . PHP_EOL . PHP_EOL . $e->getTraceAsString();
+                    $link->save();
+
+                } finally {
+                    $dom = null;
+                    $html = null;
                 }
-
-                foreach ($dom->filter("a") as $anchor) {
-                    $url = $this->normalizeUrl($anchor->getAttribute("href"));
-
-                    if ($url === false) {
-                        continue;
-                    }
-
-                    $exists = CrawlerTable::where('url', '=', $url)->first();
-
-                    if (!empty($exists)) {
-                        continue;
-                    }
-
-                    try {
-
-                        $this->crawler->create([
-                            'url' => $url
-                        ]);
-
-                        $counter++;
-
-                    } catch (Exception $e) {
-                        Log::info($e->getMessage());
-                    }
-
-                }
-
-                $link->failed_tries = 0;
-                $link->error_log = null;
-                $link->save();
-
-                DB::commit();
 
             } catch (Exception $e) {
-                DB::rollBack();
 
-                Log::info($e->getMessage() . " / Url: " . $link->url);
-                Log::info($e->getTraceAsString());
+                Log::info("Houve um erro na requisição: ");
+                continue;
 
-                $link->ind_crawled = false;
-                $link->failed_tries = $link->failed_tries + 1;
-                $link->error_log = $e->getMessage() . PHP_EOL . PHP_EOL . $e->getTraceAsString();
-                $link->save();
-
-            } finally {
-                $dom = null;
-                $html = null;
             }
 
         }
