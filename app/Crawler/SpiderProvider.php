@@ -3,6 +3,7 @@
 namespace App\Crawler;
 
 use App\Exceptions\ImageNotFoundException;
+use App\Exceptions\ImageTimeoutException;
 use App\Model\Carroceria;
 use App\Model\Montadora;
 use App\Model\Cidade;
@@ -284,6 +285,12 @@ class SpiderProvider {
         $qtdImagens = count($xpath);
         $imagens = [];
 
+        $deletarImagens = function($imgs) {
+            foreach ($imgs as $imagem) {
+                Storage::disk('s3')->delete($imagem);
+            }
+        };
+
         foreach ($xpath as $each) {
 
             try {
@@ -303,19 +310,19 @@ class SpiderProvider {
                 $imagens[] = $s3Name;
 
             } catch (FatalErrorException $fatalError) {
-                foreach ($imagens as $imagem) {
-                    Storage::disk('s3')->delete($imagem);
-                }
+                $deletarImagens($imagens);
 
-                throw new ImageNotFoundException("Ocorreu um erro no download das imagens.");
+                throw new ImageTimeoutException("Ocorreu um erro de falta de memória no download das imagens.");
             } catch (Exception $e) {
-                foreach ($imagens as $imagem) {
-                    Storage::disk('s3')->delete($imagem);
-                }
+                $deletarImagens($imagens);
 
-                throw new ImageNotFoundException("Ocorreu um erro no download das imagens.");
+                throw new Exception("Um erro ocorreu no download das imagens");
             }
 
+        }
+
+        if (empty($imagens)) {
+            throw new ImageNotFoundException("Nenhuma imagem encontrada.");
         }
 
         return $imagens;

@@ -38,7 +38,7 @@ class Crawler {
             ->where('ind_crawled', '=', '0')
             ->where('failed_tries', '<', '5')
             ->skip(($id * $this->crawlingOffset) - $this->crawlingOffset)
-            ->take($this->crawlingOffset)->lockForUpdate();
+            ->take($this->crawlingOffset);
 
         $result = $links->get();
 
