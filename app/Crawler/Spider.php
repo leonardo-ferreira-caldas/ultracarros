@@ -102,6 +102,12 @@ class Spider {
 
             Log::info($e->getMessage());
 
+            if (!empty($this->imagens)) {
+                foreach ($this->imagens as $imagem) {
+                    Storage::disk('s3')->delete($imagem);
+                }
+            }
+
             $this->crawler->delete();
 
         } catch (Exception $e) {

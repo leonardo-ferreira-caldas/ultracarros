@@ -11,6 +11,7 @@ use App\Model\Versao;
 use Log;
 use DB;
 use Image;
+use FatalErrorException;
 use Exception;
 use Storage;
 use Illuminate\Support\Str;
@@ -280,6 +281,7 @@ class SpiderProvider {
     public function getImagens($idCarro) {
 
         $xpath = $this->dom->filter("#main-carousel > div > div.carousel-inner.c-after > a > img");
+        $qtdImagens = count($xpath);
         $imagens = [];
 
         foreach ($xpath as $each) {
@@ -300,12 +302,20 @@ class SpiderProvider {
 
                 $imagens[] = $s3Name;
 
-            } catch (Exception $e) {}
+            } catch (FatalErrorException $fatalError) {
+                foreach ($imagens as $imagem) {
+                    Storage::disk('s3')->delete($imagem);
+                }
 
-        }
+                throw new ImageNotFoundException("Ocorreu um erro no download das imagens.");
+            } catch (Exception $e) {
+                foreach ($imagens as $imagem) {
+                    Storage::disk('s3')->delete($imagem);
+                }
 
-        if (empty($imagens)) {
-            throw new ImageNotFoundException("Nenhuma imagem encontrada.");
+                throw new ImageNotFoundException("Ocorreu um erro no download das imagens.");
+            }
+
         }
 
         return $imagens;
