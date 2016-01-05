@@ -110,7 +110,7 @@ class SpiderProvider {
     }
 
     public function getCor() {
-        return $this->cor[ucfirst($this->metas['wm.dt_cor'])];
+        return $this->cor[ucfirst(strtolower($this->metas['wm.dt_cor']))];
     }
 
     public function getMontadora() {
