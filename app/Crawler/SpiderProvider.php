@@ -267,9 +267,9 @@ class SpiderProvider {
             $img = Image::make($newImageName);
             $imagemCropada = "img/carros/" . uniqid($idCarro. "_") . ".jpg";
             $img->crop($img->width(), $img->height() - 72, 0, 36)->save(public_path($imagemCropada));
+            $img->destroy();
             unlink($newImageName);
             $imagens[] = $imagemCropada;
-            $img = null;
         }
 
         return $imagens;
