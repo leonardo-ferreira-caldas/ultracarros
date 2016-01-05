@@ -2,6 +2,7 @@
 
 namespace App\Crawler;
 
+use App\Model\Carroceria;
 use App\Model\Cidade;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Versao;
@@ -116,7 +117,12 @@ class SpiderProvider {
     }
 
     public function getCarroceria() {
-        return $this->carroceria[$this->metas['wm.dt_carroceria']];
+        if (isset($this->carroceria[$this->metas['wm.dt_carroceria']])) {
+            return $this->carroceria[$this->metas['wm.dt_carroceria']];
+        }
+        $carroceria = new Carroceria();
+        $carroceria->descricao = $this->metas['wm.dt_carroceria'];
+        $carroceria->save();
     }
 
     public function getModelo() {
