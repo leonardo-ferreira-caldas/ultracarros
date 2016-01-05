@@ -117,11 +117,17 @@ class Crawler {
                         continue;
                     }
 
-                    $this->crawler->create([
-                        'url' => $url
-                    ]);
+                    try {
 
-                    $counter++;
+                        $this->crawler->create([
+                            'url' => $url
+                        ]);
+
+                        $counter++;
+
+                    } catch (Exception $e) {
+                        Log::info($e->getMessage());
+                    }
 
                 }
 
