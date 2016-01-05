@@ -130,7 +130,7 @@ class Crawler {
             } catch (Exception $e) {
                 DB::rollBack();
 
-                Log::info($e->getMessage());
+                Log::info($e->getMessage() . " / Url: " . $link->url);
 
                 $link->ind_crawled = false;
                 $link->failed_tries = $link->failed_tries + 1;
