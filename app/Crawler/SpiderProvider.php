@@ -289,7 +289,7 @@ class SpiderProvider {
                 $imgHttpUrl = $this->getImagemURL($each->getAttribute("src"));
 
                 $img = Image::make($imgHttpUrl);
-                $croppedImage = $img->crop($img->width(), $img->height() - 72, 0, 36)->stream();
+                $croppedImage = $img->stream();
                 $img->destroy();
 
                 $s3Name = uniqid('veiculo' . $idCarro . '_') . '.' . $this->getExtensao($imgHttpUrl);
