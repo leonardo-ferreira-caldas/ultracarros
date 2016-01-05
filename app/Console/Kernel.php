@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\WebCrawler::class,
         Commands\Cleaner::class,
-        Commands\TestWebCrawler::class
+        Commands\TestWebCrawler::class,
+        Commands\ClearLog::class
     ];
 
     /**
@@ -35,5 +36,6 @@ class Kernel extends ConsoleKernel
         }
 
         $schedule->command("crawler:clean")->weekly();
+        $schedule->command("log:clear")->hourly();
     }
 }
