@@ -123,6 +123,7 @@ class SpiderProvider {
         $carroceria = new Carroceria();
         $carroceria->descricao = $this->metas['wm.dt_carroceria'];
         $carroceria->save();
+        return $carroceria->id_carroceria;
     }
 
     public function getModelo() {
