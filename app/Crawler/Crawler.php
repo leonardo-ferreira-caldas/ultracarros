@@ -19,7 +19,7 @@ class Crawler {
     private $initialCrawlerDomain = "www.webmotors.com.br";
     private $initialCrawlerProtocol = "http";
 
-    private $crawlingOffset = 50;
+    private $crawlingOffset = 40;
     private $ignoreUrlWords = ['javascript', 'mailto:', 'login'];
 
     private $regexProduct = '.*\/comprar\/.*portas.*';
