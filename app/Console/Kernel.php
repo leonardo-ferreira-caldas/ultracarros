@@ -24,9 +24,13 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Shedule $schedule)
     {
-        for ($i = 0; $i < 5; $i++) {
+        $crawlersToStart = 5;
+        $crawlersToStart = $crawlersToStart - session()->get('crawler', 0);
+        session()->set('crawler', $crawlersToStart);
+
+        for ($i = 0; $i < $crawlersToStart; $i++) {
             $schedule->command("crawler:run {$i}")->everyMinute();
         }
 

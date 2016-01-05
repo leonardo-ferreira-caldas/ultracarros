@@ -150,6 +150,7 @@ class Crawler {
         }
 
         Log::info("Crawling finished $uuid, Links inseridos: $counter!");
+        session()->set('crawler', session()->get('crawler') - 1);
 
     }
 
