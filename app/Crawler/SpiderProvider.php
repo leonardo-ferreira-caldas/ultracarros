@@ -3,6 +3,7 @@
 namespace App\Crawler;
 
 use App\Model\Cidade;
+use Psy\Exception\ErrorException;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Versao;
 use Log;
@@ -179,23 +180,38 @@ class SpiderProvider {
 
     public function getOpcionaisObservacaoDocumentacao() {
         $xpath = $this->dom->filter("body > div.content.detalhes-anuncio.c-after > div.col-main.col-12 > div:nth-child(3) > div > div.geral.informacoes > div.size-default.pad-h_gutter-t.pad-gutter-lr.lh-oh_gutter > p");
-        $split = explode("\r\n", $xpath->text(), 6);
-        $result = explode(",", $split[2]);
+        $split = explode("Observações do vendedor", $xpath->html());
+        $opcionaisString = trim(strip_tags($split[0]));
+
+        if (!empty($result)) {
+            $opcionaisArray = explode(",", $opcionaisString);
+        } else {
+            $opcionaisArray = [];
+        }
 
         $opcionais = [];
 
-        foreach ($result as $each) {
+        foreach ($opcionaisArray as $each) {
             $opcionais[] = $this->opcional[trim($each)];
         }
 
-        $documentacao = explode(",", $split[4]);
+        $documentacaoString = trim(strip_tags(explode("<br>", $split[1])[0]));
+
+        if (!empty($documentacaoString)) {
+            $documentacao = explode(",", $documentacaoString);
+        } else {
+            $documentacao = [];
+        }
+
         $listaDocumentacao = [];
 
         foreach ($documentacao as $eachD) {
             $listaDocumentacao[] = $this->documentacao[trim($eachD)];
         }
 
-        $observacao = trim($split[5]);
+        $observacao = trim(strip_tags(explode("<br>", $split[1])[1]));
+
+        dump([$opcionais, $observacao, $listaDocumentacao]);
 
         return [$opcionais, $observacao, $listaDocumentacao];
     }
@@ -207,7 +223,7 @@ class SpiderProvider {
 
         foreach ($xpath as $each) {
             $src = explode("?", $each->getAttribute("src"));
-            $mime = explode(".", $src);
+            $mime = explode(".", $src[0]);
             $newImageName = "/tmp/" . uniqid() . "." . end($mime);
             copy($src[0], $newImageName);
             $img = Image::make($newImageName);

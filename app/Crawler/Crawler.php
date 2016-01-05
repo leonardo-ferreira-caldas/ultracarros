@@ -31,7 +31,8 @@ class Crawler {
 
     public function getLinks($id) {
         if (!$this->crawler->count()) {
-            $this->crawler->create(['url' => $this->formatUrl("")]);
+            $this->crawler->create(['url' => 'http://www.webmotors.com.br/comprar/volkswagen/fusca/1-6-8v-gasolina-2p-manual/2-portas/1986/15697001']);
+//            $this->crawler->create(['url' => $this->formatUrl("")]);
         }
 
         $links = $this->crawler
@@ -90,6 +91,7 @@ class Crawler {
                     $link->ind_crawled = false;
                     $link->failed_tries = $link->failed_tries + 1;
                     $link->save();
+                    Log::info("Erro de requisição: STATUS " . $request->getStatusCode());
                     continue;
                 }
 
@@ -135,6 +137,8 @@ class Crawler {
                 $link->ind_crawled = false;
                 $link->failed_tries = $link->failed_tries + 1;
                 $link->save();
+
+                throw $e;
 
             } finally {
                 $dom = null;
