@@ -34,6 +34,11 @@ class Spider {
             }
 
             $provider = new SpiderProvider($this->dom);
+
+            if ($provider->isAnuncioDesativado()) {
+                return;
+            }
+
             list($ano, $modelo) = $provider->getAnoModelo();
             list($opcionais, $observacao, $documentacoes) = $provider->getOpcionaisObservacaoDocumentacao();
 

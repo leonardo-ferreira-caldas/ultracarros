@@ -3,12 +3,13 @@
 namespace App\Crawler;
 
 use App\Model\Cidade;
-use Psy\Exception\ErrorException;
 use Symfony\Component\DomCrawler\Crawler as DomCrawler;
 use App\Model\Versao;
 use Log;
 use DB;
 use Image;
+use Exception;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class SpiderProvider {
@@ -75,6 +76,21 @@ class SpiderProvider {
         }
 
         $this->metas = $metas;
+    }
+
+    public function isAnuncioDesativado() {
+        $anuncioDesativo = $this->dom->filter("body > div.content.detalhes-anuncio-inexistente.c-after > div.col-18.pad-d_gutter-t > div.size-xbigger.bold.mrg-gutter-b")->text();
+
+        if (Str::contains($anuncioDesativo, "Desativado")) {
+            return true;
+        }
+
+        try {
+            $this->getAnoModelo();
+            return false;
+        } catch (Exception $e) {
+            return true;
+        }
     }
 
     public function getCombustivel() {
@@ -210,8 +226,6 @@ class SpiderProvider {
         }
 
         $observacao = trim(strip_tags(explode("<br>", $split[1])[1]));
-
-        dump([$opcionais, $observacao, $listaDocumentacao]);
 
         return [$opcionais, $observacao, $listaDocumentacao];
     }
