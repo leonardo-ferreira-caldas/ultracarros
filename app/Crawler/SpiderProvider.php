@@ -280,7 +280,7 @@ class SpiderProvider {
     }
 
     private function getTMPFilePath($url) {
-        return rtrim(sys_get_temp_dir(), '/') . $url;
+        return rtrim(sys_get_temp_dir(), '/') . '/' . $url;
     }
 
     public function getImagens($idCarro) {
