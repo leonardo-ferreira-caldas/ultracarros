@@ -20,7 +20,7 @@ class Crawler {
     private $initialCrawlerProtocol = "http";
 
     private $crawlingOffset = 50;
-    private $ignoreUrlWords = ['javascript', 'mailto:'];
+    private $ignoreUrlWords = ['javascript', 'mailto:', 'login'];
 
     private $regexProduct = '.*\/comprar\/.*portas.*';
 
