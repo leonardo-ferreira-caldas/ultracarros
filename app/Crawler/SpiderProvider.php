@@ -272,16 +272,22 @@ class SpiderProvider {
         $imagens = [];
 
         foreach ($xpath as $each) {
-            $src = explode("?", $each->getAttribute("src"));
-            $mime = explode(".", $src[0]);
-            $newImageName = "/tmp/" . uniqid() . "." . end($mime);
-            copy($src[0], $newImageName);
-            $img = Image::make($newImageName);
-            $imagemCropada = "img/carros/" . uniqid($idCarro. "_") . ".jpg";
-            $img->crop($img->width(), $img->height() - 72, 0, 36)->save(public_path($imagemCropada));
-            $img->destroy();
-            unlink($newImageName);
-            $imagens[] = $imagemCropada;
+            try {
+                $src = explode("?", $each->getAttribute("src"));
+                $mime = explode(".", $src[0]);
+                $newImageName = "/tmp/" . uniqid() . "." . end($mime);
+                copy($src[0], $newImageName);
+                $img = Image::make($newImageName);
+                $imagemCropada = "img/carros/" . uniqid($idCarro . "_") . ".jpg";
+                $img->crop($img->width(), $img->height() - 72, 0, 36)->save(public_path($imagemCropada));
+                $img->destroy();
+                unlink($newImageName);
+                $imagens[] = $imagemCropada;
+            } catch (Exception $e) {}
+        }
+
+        if (empty($imagens)) {
+            throw new Exception("Nenhuma imagem encontrada.");
         }
 
         return $imagens;

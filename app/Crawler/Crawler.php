@@ -111,7 +111,9 @@ class Crawler {
                         continue;
                     }
 
-                    if ($this->crawler->where('url', '=', $url)->count()) {
+                    $exists = CrawlerTable::where('url', '=', $url)->first();
+
+                    if (!empty($exists)) {
                         continue;
                     }
 
