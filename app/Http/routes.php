@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', "HomeController@teste");
+Route::get('/', function() {
+    return view('welcome');
+});
 
 /*
 |--------------------------------------------------------------------------
