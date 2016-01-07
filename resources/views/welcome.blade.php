@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ultra Carros - Procure e compare dentre carros de todo o Brasil.</title>
+    <title>MeuPossante - Procure e compare dentre carros de todo o Brasil.</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
