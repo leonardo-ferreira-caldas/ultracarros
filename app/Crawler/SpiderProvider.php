@@ -324,6 +324,7 @@ class SpiderProvider {
 
         foreach ($imagens as $s3Name) {
             Storage::disk('s3')->put($s3Name, fopen($this->getTMPFilePath($s3Name), 'r+'), 'public');
+            unlink($this->getTMPFilePath($s3Name));
         }
 
         return $imagens;
