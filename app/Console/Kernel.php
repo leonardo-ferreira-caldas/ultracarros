@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
             $schedule->command("crawler:run {$i}")->everyMinute();
         }
 
-        $schedule->command("crawler:clean")->weekly();
+        $schedule->command("crawler:clean")->cron('0 0 */2 * *');
         $schedule->command("log:clear")->hourly();
     }
 }
