@@ -43,7 +43,7 @@ class CreateThumb extends Command
         DB::table('carro')
             ->select('id_carro')
             ->whereNull('foto_capa')
-            ->chunk(5, function($users)
+            ->chunk(100, function($users)
         {
             foreach ($users as $user)
             {
