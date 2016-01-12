@@ -4,11 +4,15 @@ new Vue({
         search: '',
         search_items: [],
         search_selected: 0,
-        clientIndex: null
+        searched: false,
+        clientIndex: null,
+        found: []
     },
     ready: function() {
         var client = algoliasearch("7BIVCWV1UN", "7d0b4b697a90cc3f7a1e2b9ae5fa13e8"); // public credentials
         this.clientIndex = client.initIndex('carros');
+        this.$els.searchInput.focus();
+        $(".use-select2").select2();
     },
     methods: {
         cleanSearch: function() {
@@ -24,7 +28,24 @@ new Vue({
         searchEnter: function() {
           if (this.search_items.length) {
               this.search = this.search_items[this.search_selected].descricao;
+              this.searched = true;
               this.search_items = [];
+              this.search_selected = 0;
+              setTimeout(function() {
+                  this.$els.searchTop.focus();
+              }.bind(this), 50);
+
+              this.$http.get('/buscar').then(function (response) {
+
+                  console.log(response);
+
+                  // set data on vm
+                  //this.$set('someData', response.data)
+
+              }, function (response) {
+
+                  // handle error
+              });
           }
         },
         searchSelectNext: function() {
@@ -33,14 +54,15 @@ new Vue({
             }
         },
         searchSelectPrev: function() {
-            console.log(this.search_selected < this.search_items.length,this.search_selected, this.search_items.length);
             if (this.search_selected > 0) {
                 this.search_selected--;
             }
         },
         searchRequest: function(event) {
 
-            if (!this.search || event.keyCode == 13) {
+            if ([40, 38, 13].indexOf(event.keyCode) !== -1) {
+                return;
+            } else if (!this.search) {
                 this.search_items = [];
                 this.search_selected = 0;
                 return;

@@ -35,25 +35,8 @@
 <body class="promo" id="app">
     <div class="site-wrapper-border"></div>
 
-    <!--autorization-->
-    <div class="add_place none" id="autorized">
-        <div class="place_form login_form">
-            <i class="fa fa-times close_window" id="closeau"></i>
-            <h3>Autorization<span></span></h3>
-            <form>
-                <label>Login:<input type="text"></label>
-                <label>Password:<input type="text"></label>
-                <a href="#" class="btn btn-success">Log in</a>
-                <a href="#" class="btn btn-primary"><i class="icon-facebook"></i>Log in with Facebook</a>
-            </form>
-        </div>
-    </div>
-
-    <!-- Site Overlay -->
-    <div class="site-overlay"></div>
-
     <div id="container">
-        <div class="top_promo_block" id="promo_head">
+        <div class="top_promo_block" v-show="!searched" id="promo_head">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -68,9 +51,22 @@
                 <div style="align: center"><img src="/img/logo.png" alt="#"></div>
                 <div class="search_promo">
                     <form action="" id="search-form" v-on:submit.prevent v-bind:class="{'active': search, 'autocomplete': search_items.length}" role="form">
-                        <input autocomplete="off" aria-autocomplete="off" v-on:keyup.down="searchSelectNext" v-on:keyup.enter="searchEnter" v-on:keyup.up="searchSelectPrev" v-on:keyup="searchRequest" v-model="search" type="text" id="search-field" class="form-control">
+
+                        <input
+                                autocomplete="off"
+                                aria-autocomplete="off"
+                                v-on:keyup.down="searchSelectNext"
+                                v-on:keyup.enter="searchEnter"
+                                v-on:keyup.up="searchSelectPrev"
+                                v-on:keyup="searchRequest"
+                                v-model="search"
+                                type="text"
+                                id="search-field"
+                                class="form-control">
+
                         <button role="button" id="search-form-btn"><i class="fa fa-search"></i></button>
                         <button v-on:click="cleanSearch" role="button" v-show="search" id="cleansearch-form-btn"><i class="fa fa-times"></i></button>
+
                         <div v-show="search_items.length" id="autocomplete">
                             <ul>
                                 <li  v-bind:class="{'active': $index == search_selected}" v-for="item in search_items" v-on:click="autocompleteSelect(item.descricao)">

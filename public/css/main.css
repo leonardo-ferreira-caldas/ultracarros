@@ -10,8 +10,6 @@ body {
     overflow-x:hidden;
 }
 
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
-
 body.inmap {overflow: hidden; transition: 0.3s;}
 
 a {
@@ -37,6 +35,12 @@ a:hover {
     position: relative;
     margin-left: 0px;
     transition: 0.3s;
+}
+
+.clear {
+    content:"";
+    display:table;
+    clear:both;
 }
 
 .fixed_w {
@@ -250,12 +254,180 @@ body.inner_page .bg_parallax {
     margin-top: 36px;
 }
 
-.header_promo a {
+#content-wrapper {
+    display: block;
+}
+
+.content-body {
+    margin: 20px 0 0 20px;
+    float: left;
+    width: 1100px;
+}
+
+.content-body .car-search-list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.content-body .car-search-list > li {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 45px;
+}
+
+.content-body .car-search-list > li:nth-child(4n+0) {
+    margin-right: 0px !important;
+}
+
+.content-body .car-search-list > li .car-thumb-img {
+    margin-bottom: 17px;
+}
+
+.content-body .car-search-list > li .car-resume-name {
+    color: #232628;
+    overflow: hidden;
+    width: 170px;
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 18px;
+    float: left;
+    font-weight: 700;
+    font-family: 'Montserrat';
+}
+
+.content-body .car-search-list > li .car-resume-price {
+    position: relative;
+    float: right;
+    width: 75px;
+    white-space: nowrap;
+    padding: 6px 10px 4px 0;
+    background-color: #6c98e1;
+    color: #fff;
+    text-align: right;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    font-family: 'Montserrat';
+}
+
+.content-body .car-search-list > li .car-resume-price > span {
+    position: relative;
+    z-index: 99;
+}
+
+.content-body .car-search-list > li .car-resume-price:before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    left: -12px;
+    height: 100%;
+    width: 16px;
+    background-color: #6c98e1;
+    -moz-transform: skew(-14deg, 0deg);
+    -o-transform: skew(-14deg, 0deg);
+    -ms-transform: skew(-14deg, 0deg);
+    -webkit-transform: skew(-14deg, 0deg);
+    transform: skew(-14deg, 0deg);
+    z-index: 5;
+}
+
+.content-body .car-search-list > li .car-resume-features {
+    padding-top: 5px;
+    margin-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.content-body .car-search-list > li .car-resume-features > .car-resume-single-feature  {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-right: 14px;
+    color: #888;
+    vertical-align: middle;
+}
+
+.content-body .car-search-list > li .car-resume-features > .car-resume-single-feature > span {
+    float: left;
+    margin-left: 2px;
+    font-size: 13px;
+}
+
+.content-body .car-search-list > li .car-resume-features > .car-resume-single-feature > i {
+    float: left;
+    font-size: 13px;
+    margin: 2px 3px 0 0;
+    color: #aaa;
+}
+
+.filter-sidebar {
+    float: left;
+    width: 230px;
+    margin: 20px 0 10px 0;
+    border-right: 1px solid #ddd;
+}
+
+.filter-sidebar-header {
+    padding: 14px 0 0;
+    position: relative;
+    text-align: center;
+}
+
+.filter-sidebar-header-align {
+    text-align: center;
+    display: inline-block;
+    padding: 0 10px 0px;
+}
+
+.filter-sidebar-header h4 {
+    color: #3D5D6D;
+    padding: 0px;
+    margin: 3px 0 0 10px;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+    font-size: 21px;
+    font-weight: 400;
+    float: left;
+}
+
+.filter-sidebar-header i {
+    display: inline-block;
+    font-size: 29px;
+    color: #3D5D6D;
+    float: left;
+}
+
+.filter-body {
+    padding: 20px;
+}
+
+.filter-item {
+    margin-bottom: 20px;
+}
+
+.filter-item h5 {
+    margin: 0;
+    margin-bottom: 7px;
+    line-height: 22px;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+}
+
+.log_btn {
     border: 2px solid;
-    padding: 10px 40px;
+    padding: 9px 40px;
+    position: absolute;
+    background: #FFF;
+    right: 5%;
+    z-index: 999;
+    top: 5%;
     border-radius: 3px;
     font-size: 15px;
-    float: right;
+}
+
+.log_btn.searched {
+    right: 25px;
+    top: 15px;
 }
 
 .header_promo a:hover {
@@ -331,6 +503,24 @@ body.inner_page .bg_parallax {
     margin: 0px;
 }
 
+.topbar-search {
+    float: left;
+    margin-top: 14px;
+}
+
+#top-search {
+    height: 71px;
+    padding: 0 0 0 15px;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+}
+
+#top-search > img {
+    float: left;
+    margin-top: 7px;
+    margin-right: 15px;
+}
+
 #search-form.autocomplete #search-field {
     border-bottom-right-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
@@ -341,6 +531,8 @@ body.inner_page .bg_parallax {
     background: #fff;
     cursor: pointer;
     border-bottom: 1px solid #d0d0d0;
+    color: #535353;
+    font-family: 'Open Sans', 'Roboto', sans-serif;
 }
 
 #autocomplete ul li:hover, #autocomplete ul li.active {
@@ -384,16 +576,26 @@ body.inner_page .bg_parallax {
     color: #fff;
 }
 
-.search_promo input {
+.topbar-search .topbar-search-wrapper {
+    position: relative;
+}
+
+.topbar-search .autocomplete-searchinput {
+    width: 700px;
+}
+
+input.autocomplete-searchinput {
     height: 45px;
     border: 1px solid #d0d0d0;
     border-radius: 3px;
-    color: #8c8c8c;
+    color: #535353;
     font-size: 18px;
     box-shadow: none;
-    font-weight: 300;
+    font-family: 'Open Sans', 'Roboto', sans-serif;
+    font-weight: 400;
     padding: 0px 20px;
 }
+
 .search_promo input:focus, .btn_cat button:focus, .btn_promo_search button:focus, .input-group-btn {outline: none; box-shadow: none;}
 .search_promo .btn_cat button span {
     color: #322F44;
