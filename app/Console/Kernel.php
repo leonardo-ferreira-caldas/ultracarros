@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\WebCrawler::class,
         Commands\Cleaner::class,
         Commands\TestWebCrawler::class,
-        Commands\ClearLog::class
+        Commands\ClearLog::class,
+        Commands\CreateThumb::class
     ];
 
     /**
