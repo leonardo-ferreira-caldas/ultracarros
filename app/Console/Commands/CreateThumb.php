@@ -61,9 +61,8 @@ class CreateThumb extends Command
 
                 $split = explode(".", $img->nome_foto);
                 $extension = array_pop($split);
-                $split[] = "255x135";
-                $split[] = $extension;
                 $s3Name = implode(".", $split);
+                $s3Name .= "-255x135." . $extension;
 
                 Storage::disk('s3')->put($s3Name, fopen($tmp, 'r+'), 'public');
                 unlink($tmp);
