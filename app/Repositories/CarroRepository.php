@@ -13,7 +13,12 @@ class CarroRepository {
     }
 
     public function buscar() {
-        return $this->carro->skip(0)->take(12)->get();
+        return $this->carro
+            ->whereNotNull('foto_capa')
+            ->select('id_carro', 'nome_carro', 'kilometragem', 'preco', 'ano', 'foto_capa')
+            ->skip(0)
+            ->take(12)
+            ->get();
     }
 
 }

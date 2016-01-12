@@ -71,7 +71,6 @@ class CreateThumb extends Command
 
             }
 
-            return false;
         });
     }
 }

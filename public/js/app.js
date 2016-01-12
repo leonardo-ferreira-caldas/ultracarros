@@ -6,7 +6,7 @@ new Vue({
         search_selected: 0,
         searched: false,
         clientIndex: null,
-        found: []
+        result: []
     },
     ready: function() {
         var client = algoliasearch("7BIVCWV1UN", "7d0b4b697a90cc3f7a1e2b9ae5fa13e8"); // public credentials
@@ -27,24 +27,21 @@ new Vue({
         },
         searchEnter: function() {
           if (this.search_items.length) {
+              
               this.search = this.search_items[this.search_selected].descricao;
               this.searched = true;
               this.search_items = [];
               this.search_selected = 0;
+
               setTimeout(function() {
                   this.$els.searchTop.focus();
               }.bind(this), 50);
 
               this.$http.get('/buscar').then(function (response) {
 
-                  console.log(response);
-
                   // set data on vm
-                  //this.$set('someData', response.data)
+                  this.result = response.data;
 
-              }, function (response) {
-
-                  // handle error
               });
           }
         },

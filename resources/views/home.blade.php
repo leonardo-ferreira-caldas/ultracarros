@@ -218,26 +218,26 @@
                 <div class="content-body">
 
                     <ul class="car-search-list">
-                        <li v-for="n in 12">
+                        <li v-for="carro in result">
                             <a href="#">
                                 <div class="car-thumb-img">
-                                    <img src="/img/122-255x135.jpg" alt="">
+                                    <img src="https://s3-sa-east-1.amazonaws.com/fotoscarros/@{{ carro.foto_capa }}" alt="">
                                 </div>
                                 <div class="car-resume-info">
                                     <div class="car-resume-name">
-                                        BMW 535I, NAVI, LEATHER, ABS
+                                        @{{ carro.nome_carro }}
                                     </div>
                                     <div class="car-resume-price">
-                                        <span>R$ 81000</span>
+                                        <span>R$ @{{ carro.preco }}</span>
                                     </div>
                                 </div>
                                 <div class="clear"></div>
                                 <div class="car-resume-features">
                                     <div class="car-resume-single-feature">
-                                        <i class="stm-icon-road"></i> <span>34000 KM</span>
+                                        <i class="stm-icon-road"></i> <span>@{{ carro.kilometragem }} KM</span>
                                     </div>
                                     <div class="car-resume-single-feature">
-                                        <i class="stm-icon-fuel"></i> <span>80</span>
+                                        <i class="stm-icon-fuel"></i> <span>@{{ carro.ano }}</span>
                                     </div>
                                     <div class="car-resume-single-feature">
                                         <i class="stm-icon-transmission_fill"></i> <span>manual</span>
