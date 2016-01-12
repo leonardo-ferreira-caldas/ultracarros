@@ -1,3 +1,7 @@
+Vue.filter('ellipsis', function (value) {
+    return value.split('').reverse().join('')
+});
+
 new Vue({
     el: '#app',
     data: {
@@ -27,7 +31,7 @@ new Vue({
         },
         searchEnter: function() {
           if (this.search_items.length) {
-              
+
               this.search = this.search_items[this.search_selected].descricao;
               this.searched = true;
               this.search_items = [];

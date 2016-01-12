@@ -228,7 +228,7 @@
                                         @{{ carro.nome_carro }}
                                     </div>
                                     <div class="car-resume-price">
-                                        <span>R$ @{{ carro.preco }}</span>
+                                        R$ @{{ carro.preco }}
                                     </div>
                                 </div>
                                 <div class="clear"></div>
