@@ -218,7 +218,7 @@
                 <div class="content-body">
 
                     <ul class="car-search-list">
-                        <li v-for="carro in result">
+                        <li v-for="carro in result_rows">
                             <a href="#">
                                 <div class="car-thumb-img">
                                     <img src="https://s3-sa-east-1.amazonaws.com/fotoscarros/@{{ carro.foto_capa }}" alt="">
@@ -246,6 +246,41 @@
                             </a>
                         </li>
                     </ul>
+
+                    <div class="clear"></div>
+
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a
+                                    v-bind:class="{'disabled': result_current_page == 1}"
+                                    v-on:click.prevent
+                                    v-on:click="prevPage"
+                                    href="#"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li
+                                v-for="n in result_total_pages"
+                                v-bind:class="{'active': (n+1) == result_current_page}">
+                                    <a
+                                        v-on:click.prevent
+                                        v-on:click="changePage(n+1)"
+                                        href="?page=@{{ n+1 }}">@{{ n+1 }}</a>
+                            </li>
+                            <li>
+                                <a
+                                    v-bind:class="{'disabled': result_current_page == result_total_pages}"
+                                    v-on:click.prevent
+                                    v-on:click="nextPage"
+                                    href="#"
+                                    aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
 
                 </div>
             </div>

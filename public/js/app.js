@@ -10,7 +10,10 @@ new Vue({
         search_selected: 0,
         searched: false,
         clientIndex: null,
-        result: []
+        result_rows: [],
+        result_current_page: 1,
+        result_total_pages: 1,
+        result_total_rows: 1
     },
     ready: function() {
         var client = algoliasearch("7BIVCWV1UN", "7d0b4b697a90cc3f7a1e2b9ae5fa13e8"); // public credentials
@@ -44,10 +47,32 @@ new Vue({
               this.$http.get('/buscar').then(function (response) {
 
                   // set data on vm
-                  this.result = response.data;
+                  this.result = response.data.rows;
 
               });
           }
+        },
+        changePage: function(page) {
+            if (page == this.result_current_page) {
+                return;
+            }
+            this.$http.get('/buscar', {'page': page}).then(function (response) {
+                this.result = response.data.rows;
+                this.result_current_page = response.data.current_page;
+                this.result_total_pages = response.data.total_pages;
+                this.result_total_rows = response.data.total;
+            });
+        },
+        nextPage: function() {
+            var nextpage = this.result_current_page + 1;
+            if (nextpage <= this.result_total_pages) {
+                this.changePage(nextpage);
+            }
+        },
+        prevPage: function() {
+            if (this.result_current_page > 1) {
+                this.changePage(this.result_current_page - 1);
+            }
         },
         searchSelectNext: function() {
             if (this.search_selected < (this.search_items.length-1)) {

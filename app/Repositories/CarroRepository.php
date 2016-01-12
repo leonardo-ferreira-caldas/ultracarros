@@ -12,13 +12,24 @@ class CarroRepository {
         $this->carro = $carro;
     }
 
-    public function buscar() {
-        return $this->carro
+    public function buscar($searchInput) {
+
+        $query = $this->carro
             ->whereNotNull('foto_capa')
-            ->select('id_carro', 'nome_carro', 'kilometragem', 'preco', 'ano', 'foto_capa')
-            ->skip(0)
-            ->take(12)
-            ->get();
+            ->select('id_carro', 'nome_carro', 'kilometragem', 'preco', 'ano', 'foto_capa');
+
+        $count = $query->count();
+
+        $page = $searchInput['page'] ?? 1;
+        $skip = ($page * 12) - 12;
+
+        return [
+            'total'        => $count,
+            'result'       => $query->skip($skip)->take(12)->get(),
+            'current_page' => $page,
+            'total_pages'  => ceil($count / $page)
+        ];
+
     }
 
 }

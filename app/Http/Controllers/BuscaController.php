@@ -17,6 +17,6 @@ class BuscaController extends Controller
     }
 
     public function buscar(Request $request) {
-        return $this->carro->buscar();
+        return $this->carro->buscar($request->all());
     }
 }
