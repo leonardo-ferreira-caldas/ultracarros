@@ -47,7 +47,10 @@ new Vue({
               this.$http.get('/buscar').then(function (response) {
 
                   // set data on vm
-                  this.result = response.data.rows;
+                  this.result_rows = response.data.rows;
+                  this.result_current_page = response.data.current_page;
+                  this.result_total_pages = response.data.total_pages;
+                  this.result_total_rows = response.data.total;
 
               });
           }
@@ -57,7 +60,7 @@ new Vue({
                 return;
             }
             this.$http.get('/buscar', {'page': page}).then(function (response) {
-                this.result = response.data.rows;
+                this.result_rows = response.data.rows;
                 this.result_current_page = response.data.current_page;
                 this.result_total_pages = response.data.total_pages;
                 this.result_total_rows = response.data.total;
