@@ -26,6 +26,20 @@
         <option name="myItemId" />
         <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
       </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="MySQL - ultracarros@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="ultracarros" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DbRootNodeDescriptor" />
+      </PATH_ELEMENT>
     </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -69,8 +83,8 @@
       <file leaf-file-name="CreateThumb.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Console/Commands/CreateThumb.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.95307916">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.17667845">
+              <caret line="56" column="22" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="22" />
               <folding>
                 <element signature="e#40#71#0#PHP" expanded="true" />
               </folding>
@@ -179,8 +193,8 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/84fe9bfe-272b-4591-8919-4afb03757cc5/console_10.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/382fdb2e-e47b-4e85-a5f4-1cba19b591e6/console_35.sql" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/382fdb2e-e47b-4e85-a5f4-1cba19b591e6/console_36.sql" />
-        <option value="$PROJECT_DIR$/app/Console/Commands/CreateThumb.php" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
+        <option value="$PROJECT_DIR$/app/Console/Commands/CreateThumb.php" />
       </list>
     </option>
   </component>
@@ -947,8 +961,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/CreateThumb.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.95307916">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.17667845">
+          <caret line="56" column="22" selection-start-line="56" selection-start-column="16" selection-end-line="56" selection-end-column="22" />
           <folding>
             <element signature="e#40#71#0#PHP" expanded="true" />
           </folding>

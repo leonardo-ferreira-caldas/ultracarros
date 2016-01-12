@@ -53,11 +53,11 @@ class CreateThumb extends Command
 
                 $s3 = "https://s3-sa-east-1.amazonaws.com/fotoscarros/" . $img->nome_foto;
 
-                $img = Image::make($s3);
-                $img->fit(255, 135);
+                $thumb = Image::make($s3);
+                $thumb->fit(255, 135);
                 $tmp = '/tmp/' . $img->nome_foto;
-                $img->save($tmp);
-                $img->destroy();
+                $thumb->save($tmp);
+                $thumb->destroy();
 
                 $split = explode(".", $img->nome_foto);
                 $extension = array_pop($split);
