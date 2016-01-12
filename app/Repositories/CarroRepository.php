@@ -25,9 +25,9 @@ class CarroRepository {
 
         return [
             'total'        => $count,
-            'result'       => $query->skip($skip)->take(12)->get(),
+            'rows'         => $query->skip($skip)->take(12)->get(),
             'current_page' => $page,
-            'total_pages'  => ceil($count / $page)
+            'total_pages'  => ceil($count / 12)
         ];
 
     }
