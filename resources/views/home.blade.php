@@ -234,7 +234,7 @@
                                 <div class="clear"></div>
                                 <div class="car-resume-features">
                                     <div class="car-resume-single-feature">
-                                        <i class="stm-icon-road"></i> <span>@{{ carro.kilometragem }} KM</span>
+                                        <i class="stm-icon-road"></i> <span>@{{ carro.kilometragem | filter_km }} KM</span>
                                     </div>
                                     <div class="car-resume-single-feature">
                                         <i class="stm-icon-fuel"></i> <span>@{{ carro.ano }}</span>

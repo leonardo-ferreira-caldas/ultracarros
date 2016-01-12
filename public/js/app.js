@@ -1,5 +1,5 @@
-Vue.filter('ellipsis', function (value) {
-    return value.split('').reverse().join('')
+Vue.filter('filter_km', function (value) {
+    return value.toString().length > 6 ? value.toString().substring(0, 6) : value;
 });
 
 new Vue({
