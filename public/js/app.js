@@ -23,7 +23,7 @@ new Vue({
         search_params: {
             page: 1
         },
-        searched: true,
+        searched: false,
         clientIndex: null,
         loading: false,
         result_rows: [],
