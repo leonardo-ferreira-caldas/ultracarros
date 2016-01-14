@@ -20,6 +20,9 @@ new Vue({
         search: '',
         search_items: [],
         search_selected: 0,
+        search_params: {
+            page: 1
+        },
         searched: false,
         clientIndex: null,
         loading: false,
@@ -57,31 +60,27 @@ new Vue({
                   this.$els.searchTop.focus();
               }.bind(this), 50);
 
-              this.loading = true;
+              this.buscar();
 
-              this.$http.get('/buscar').then(function (response) {
-
-                  this.loading = false;
-
-                  // set data on vm
-                  this.result_rows = response.data.rows;
-                  this.result_current_page = response.data.current_page;
-                  this.result_total_pages = response.data.total_pages;
-                  this.result_total_rows = response.data.total;
-
-              });
           }
         },
-        changePage: function(page) {
-            if (page == this.result_current_page) {
-                return;
-            }
-            this.$http.get('/buscar', {'page': page}).then(function (response) {
+        buscar: function() {
+            this.loading = true;
+
+            this.$http.get('/buscar', {'page': this.search_params.page}).then(function (response) {
+                this.loading = false;
                 this.result_rows = response.data.rows;
                 this.result_current_page = response.data.current_page;
                 this.result_total_pages = response.data.total_pages;
                 this.result_total_rows = response.data.total;
             });
+        },
+        changePage: function(page) {
+            if (page == this.result_current_page) {
+                return;
+            }
+            this.search_params.page = page;
+            this.buscar();
         },
         nextPage: function() {
             var nextpage = this.result_current_page + 1;
