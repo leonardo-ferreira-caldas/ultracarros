@@ -21,13 +21,14 @@ class CarroRepository {
         $count = $query->count();
 
         $page = $searchInput['page'] ?? 1;
-        $skip = ($page * 12) - 12;
+        $offset = 20;
+        $skip = ($page * $offset) - $offset;
 
         return [
             'total'        => $count,
-            'rows'         => $query->skip($skip)->take(12)->orderBy('id_carro', 'asc')->get(),
+            'rows'         => $query->skip($skip)->take($offset)->orderBy('id_carro', 'asc')->get(),
             'current_page' => $page,
-            'total_pages'  => ceil($count / 12)
+            'total_pages'  => ceil($count / $offset)
         ];
 
     }
