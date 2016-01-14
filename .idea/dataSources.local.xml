@@ -22,5 +22,11 @@
         <private-key-path>$USER_HOME$/.ssh/id_rsa</private-key-path>
       </ssh-properties>
     </data-source>
+    <data-source name="MySQL - LOCALHOST" uuid="642454e9-be32-4740-a90b-77db2f69457c">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>meupossante.* mysql.*</schema-pattern>
+      <default-schemas>mysql.*</default-schemas>
+    </data-source>
   </component>
 </project>

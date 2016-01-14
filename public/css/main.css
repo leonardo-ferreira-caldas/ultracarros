@@ -404,20 +404,73 @@ body.inner_page .bg_parallax {
 }
 
 .filter-body {
-    padding: 20px;
+    padding: 0 20px 20px;
 }
 
 .filter-item {
     margin-bottom: 20px;
 }
 
+.filter-item label {
+    font-weight: 400;
+    display: block;
+    cursor: pointer;
+}
+
 .filter-item h5 {
     margin: 0;
     margin-bottom: 7px;
     line-height: 22px;
-    font-size: 15px;
-    font-weight: 400;
-    font-family: 'Roboto', 'Open Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Open Sans Condensed', 'Open Sans', sans-serif;
+    text-transform: lowercase;
+    color: #3D5D6D;
+    border-bottom: 2px solid #3D5D6D;
+    padding-bottom: 5px;
+}
+
+label {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;
+}
+
+label.custom-checkbox [type="checkbox"] {
+    display: none;
+}
+
+label.custom-checkbox [type="checkbox"] + div {
+    content: " ";
+    width: 13px;
+    float: left;
+    height: 13px;
+    margin: 3px 9px 0 0px;
+    background: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+    outline: 1px solid #ccc;;
+}
+
+label.custom-checkbox [type="checkbox"]:checked + div {
+    background: #3D5D6D !important;
+}
+
+
+div.item-color {
+    border: 1px solid #333;
+    padding: 2px;
+    display: inline-block;
+    background: #fff;
+    margin: 6px;
+    cursor: pointer;
+}
+
+div.item-color-wrapper {
+    width: 25px;
+    display: inline-block;
+    height: 25px;
 }
 
 .log_btn {
@@ -470,6 +523,11 @@ body.inner_page .bg_parallax {
 
 .bg-secondary {
     background: #3D5D6D;
+}
+
+nav.paginacao ul {
+    padding: 0px;
+    margin: 0px;
 }
 
 .color-primary {

@@ -16,7 +16,7 @@
     <!--Swipe menu-->
     <link rel="stylesheet" type="text/css" href="/css/pushy.css">
     <!--fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,300|Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,300|Open+Sans:400,300|Open+Sans+Condensed:300,400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <!--animation css-->
     <link rel="stylesheet" type="text/css" href="/css/animate.css">
@@ -80,51 +80,14 @@
 
             <div id="content-wrapper">
                 <div class="filter-sidebar">
-                    <div class="filter-sidebar-header">
-                        <div class="filter-sidebar-header-align">
-                            <i class="stm-icon-car_search"></i>
-                            <h4>Filtros</h4>
-                        </div>
-                    </div>
                     <div class="filter-body">
-                        <div class="filter-item">
-                            <h5>Cidade</h5>
-                            <select name="cidade" class="use-select2">
-                                <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                            </select>
-                            <div class="filter-used"></div>
-                        </div>
-
-                        <div class="filter-item">
-                            <h5>Carroceria</h5>
-                            <select name="cidade" class="use-select2">
-                                <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                            </select>
-                            <div class="filter-used"></div>
-                        </div>
-
                         <div class="filter-item">
                             <h5>Marca</h5>
                             <select name="cidade" class="use-select2">
                                 <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
+                                @foreach($marca as $item)
+                                    <option value="{{ $item->id_marca }}">{{ $item->descricao }}</option>
+                                @endforeach
                             </select>
                             <div class="filter-used"></div>
                         </div>
@@ -133,68 +96,49 @@
                             <h5>Modelo</h5>
                             <select name="cidade" class="use-select2">
                                 <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                            </select>
-                            <div class="filter-used"></div>
-                        </div>
-
-                        <div class="filter-item">
-                            <h5>Modelo</h5>
-                            <select name="cidade" class="use-select2">
-                                <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
+                                @foreach($modelo as $item)
+                                    <option value="{{ $item->id_modelo }}">{{ $item->descricao }}</option>
+                                @endforeach
                             </select>
                             <div class="filter-used"></div>
                         </div>
 
                         <div class="filter-item">
                             <h5>Câmbio</h5>
-                            <select name="cidade" class="use-select2">
-                                <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                            </select>
-                            <div class="filter-used"></div>
+                            @foreach($cambio as $item)
+                                <label class="custom-checkbox">
+                                    <input name="cambio" value="{{ $item->id_cambio }}" type="checkbox"> {{ $item->descricao }}
+                                    <div></div>
+                                </label>
+                            @endforeach
+                        </div>
+
+                        <div class="filter-item">
+                            <h5>Carroceria</h5>
+                            @foreach($carroceria as $item)
+                                <label class="custom-checkbox">
+                                    <input name="cambio" value="{{ $item->id_carroceria }}" type="checkbox"> {{ $item->descricao }}
+                                    <div></div>
+                                </label>
+                            @endforeach
                         </div>
 
                         <div class="filter-item">
                             <h5>Cor</h5>
-                            <select name="cidade" class="use-select2">
-                                <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                            </select>
-                            <div class="filter-used"></div>
+                            @foreach($cor as $item)
+                                <div class="item-color">
+                                    <div class="item-color-wrapper" style="background: {{$item->cor}}">&nbsp;</div>
+                                </div>
+                            @endforeach
                         </div>
 
                         <div class="filter-item">
                             <h5>Opcional</h5>
                             <select name="cidade" class="use-select2">
                                 <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
+                                @foreach($opcional as $item)
+                                    <option value="{{ $item->id_opcional }}">{{ $item->descricao }}</option>
+                                @endforeach
                             </select>
                             <div class="filter-used"></div>
                         </div>
@@ -203,12 +147,9 @@
                             <h5>Documentação</h5>
                             <select name="cidade" class="use-select2">
                                 <option value="">Selecione</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
-                                <option value="">teste</option>
+                                @foreach($documentacao as $item)
+                                    <option value="{{ $item->id_documentacao }}">{{ $item->descricao }}</option>
+                                @endforeach
                             </select>
                             <div class="filter-used"></div>
                         </div>
@@ -249,7 +190,7 @@
 
                     <div class="clear"></div>
 
-                    <nav>
+                    <nav class="paginacao">
                         <ul class="pagination">
                             <li>
                                 <a
