@@ -314,6 +314,7 @@ body.inner_page .bg_parallax {
     line-height: 18px;
     font-weight: 400;
     font-family: 'Open Sans', sans-serif;
+    min-height: 36px;
 }
 
 .content-body .car-search-list > li .car-resume-price {

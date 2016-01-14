@@ -334,9 +334,8 @@
     </div>
 
     <div class="searchloading" v-show="loading">
-        <img src="/img/loader.gif" alt="Carregando...">
+        <img src="/img/loading.gif" alt="Carregando...">
     </div>
-
     <script src="/js/app.js" type="text/javascript"></script>
 </body>
 </html>
