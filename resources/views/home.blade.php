@@ -221,11 +221,11 @@
                         <li v-for="carro in result_rows">
                             <a href="#">
                                 <div class="car-thumb-img">
-                                    <img src="https://s3-sa-east-1.amazonaws.com/fotoscarros/@{{ carro.foto_capa }}" alt="">
+                                    <img v-demo src="https://s3-sa-east-1.amazonaws.com/fotoscarros/@{{ carro.foto_capa }}" alt="">
                                 </div>
                                 <div class="car-resume-info">
                                     <div class="car-resume-name">
-                                        @{{ carro.nome_carro }}
+                                        @{{ carro.nome_carro | filter_descricao }}
                                     </div>
                                     <div class="car-resume-price">
                                         R$ @{{ carro.preco }}
@@ -331,6 +331,10 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="searchloading" v-show="loading">
+        <img src="/img/loader.gif" alt="Carregando...">
     </div>
 
     <script src="/js/app.js" type="text/javascript"></script>

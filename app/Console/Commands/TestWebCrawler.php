@@ -41,6 +41,9 @@ class TestWebCrawler extends Command
      */
     public function handle(Client $client)
     {
+        Crawler::create(['url' => $this->argument('url')]);
+
+        return;
         Crawler::where('url', '=', $this->argument('url'))->delete();
         $crawler = Crawler::create(['url' => $this->argument('url')]);
         $html = $client->get($this->argument('url'))->getBody();

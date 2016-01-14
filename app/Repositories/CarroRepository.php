@@ -25,7 +25,7 @@ class CarroRepository {
 
         return [
             'total'        => $count,
-            'rows'         => $query->skip($skip)->take(12)->get(),
+            'rows'         => $query->skip($skip)->take(12)->orderBy('id_carro', 'asc')->get(),
             'current_page' => $page,
             'total_pages'  => ceil($count / 12)
         ];

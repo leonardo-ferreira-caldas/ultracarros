@@ -283,6 +283,27 @@ body.inner_page .bg_parallax {
 
 .content-body .car-search-list > li .car-thumb-img {
     margin-bottom: 17px;
+    width: 255px;
+    background: url('/img/car_place_holder.png');
+    background-size: cover;
+    height: 135px;
+}
+
+.content-body .car-search-list > li .car-thumb-img > img {
+    opacity: 0;
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opactiy 0.5s ease-in-out;
+    -ms-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.content-body .car-search-list > li .car-thumb-img.loaded {
+    background: none;
+}
+
+.content-body .car-search-list > li .car-thumb-img.loaded > img {
+    opacity: 1;
 }
 
 .content-body .car-search-list > li .car-resume-name {
@@ -329,6 +350,20 @@ body.inner_page .bg_parallax {
     font-size: 13px;
     margin: 2px 3px 0 0;
     color: #aaa;
+}
+
+.searchloading {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 99999;
+    top: 0px;
+    left: 0px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .filter-sidebar {
