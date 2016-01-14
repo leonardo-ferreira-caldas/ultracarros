@@ -73,6 +73,7 @@ new Vue({
                 this.result_current_page = response.data.current_page;
                 this.result_total_pages = response.data.total_pages;
                 this.result_total_rows = response.data.total;
+                $("body, html").animate({scrollTop: 0}, 500);
             });
         },
         changePage: function(page) {
