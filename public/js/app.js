@@ -3,7 +3,7 @@ Vue.filter('filter_km', function (value) {
 });
 
 Vue.filter('filter_descricao', function (value) {
-    return value.toString().length > 64 ? (value.toString().substring(0, 55) + "...") : value;
+    return value.toString().length > 55 ? (value.toString().substring(0, 55) + "...") : value;
 });
 
 Vue.directive('demo', {
